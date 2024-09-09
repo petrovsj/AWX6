@@ -10,12 +10,13 @@
       cloud: "{{ cloud | default(omit) }}"
 
   tasks:
-    - name: Gather Details of All Policy Access Rules
+   
+
+     - name: Get Details of All Policy Access Rules
       zscaler.zpacloud.zpa_policy_access_rule_facts:
-        provider: "{{ ZPA_CLOUD }}"
-      register: access_rules
+        provider: "{{ zpa_cloud }}"   
       vars:
-        ansible_python_interpreter: /app/venv/bin/python
+        ansible_python_interpreter: /app/venv/bin/python       
 
     # - name: All Access Rules
     #   ansible.builtin.debug:
