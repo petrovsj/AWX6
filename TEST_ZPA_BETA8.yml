@@ -36,15 +36,14 @@
       register: python_executable
 
     - name: Display Python Executable Path
-     ansible.builtin.debug:
-       msg: "Python executable path: {{ python_executable.stdout }}"
+      ansible.builtin.debug:
+        msg: "Python executable path: {{ python_executable.stdout }}"
 
     - name: Verify Virtual Environment Packages
-    ansible.builtin.command:
-      cmd: "{{ ansible_python_interpreter }} -m pip list"
-    register: pip_list
+      ansible.builtin.command:
+        cmd: "{{ ansible_python_interpreter }} -m pip list"
+      register: pip_list
 
     - name: Display Installed Packages
-    ansible.builtin.debug:
-      msg: "Installed packages: {{ pip_list.stdout }}"
-    
+      ansible.builtin.debug:
+        msg: "Installed packages: {{ pip_list.stdout }}"
