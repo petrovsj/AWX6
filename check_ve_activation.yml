@@ -1,0 +1,8 @@
+- name: Verify Virtual Environment Activation
+  command: source /app/venv/bin/activate && echo $VIRTUAL_ENV
+  register: venv_activation
+  changed_when: false
+
+- name: Display Virtual Environment
+  debug:
+    msg: "Virtual Environment: {{ venv_activation.stdout }}"
