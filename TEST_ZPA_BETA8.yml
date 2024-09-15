@@ -24,11 +24,24 @@
           Python executable: {{ python_check.stdout }}
           zscaler library location: {{ zscaler_check.stdout }}
 
-    - name: Get Details of All Policy Access Rules
+    - name: Get Zscaler API Access
       zscaler.zpacloud.zpa_policy_access_rule_info:
-        provider: "{{ zpa_cloud }}"
-      vars:
-        ansible_python_interpreter: /app/venv/bin/python
+        provider:
+          client_id: "{{ client_id }}"
+          client_secret: "{{ client_secret }}"
+          customer_id: "{{ customer_id }}"
+          cloud: "{{ cloud }}"
+      register: access_rules
+
+    - name: Display Zscaler API Access Details
+      ansible.builtin.debug:
+        msg: "{{ access_rules }}"
+
+   # - name: Get Details of All Policy Access Rules
+   #   zscaler.zpacloud.zpa_policy_access_rule_info:
+   #     provider: "{{ zpa_cloud }}"
+   #   vars:
+   #     ansible_python_interpreter: /app/venv/bin/python
 
     - name: Check Python Executable Path
       ansible.builtin.command:
