@@ -1,7 +1,20 @@
-- name: Verify Python Executable
-  command: "{{ ansible_python_interpreter }} -c 'import sys; print(sys.executable)'"
-  register: python_executable
+---
+- name: Verify Virtual Environment
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Verify Python Executable
+      command: "{{ ansible_python_interpreter }} -c 'import sys; print(sys.executable)'"
+      register: python_executable
 
-- name: Display Python Executable
-  debug:
-    msg: "Python Executable: {{ python_executable.stdout }}"
+    - name: Display Python Executable
+      debug:
+        msg: "Python Executable: {{ python_executable.stdout }}"
+
+    - name: Verify Installed Packages
+      command: "{{ ansible_python_interpreter }} -m pip list"
+      register: pip_list
+
+    - name: Display Installed Packages
+      debug:
+        msg: "Installed Packages: {{ pip_list.stdout }}"
