@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - name: Test zscaler import
+      command: "{{ ansible_python_interpreter }} -c 'import zscaler; print(zscaler)'"
