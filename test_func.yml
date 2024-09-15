@@ -1,0 +1,14 @@
+---
+- name: Test Zscaler Functionality
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Test Zscaler SDK
+      ansible.builtin.shell: |
+        source /app/venv/bin/activate
+        python -c "import zscaler; print(dir(zscaler))"
+      register: zscaler_test
+
+    - name: Display Zscaler Test Results
+      debug:
+        var: zscaler_test.stdout
