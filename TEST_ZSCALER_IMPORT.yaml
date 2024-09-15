@@ -1,0 +1,11 @@
+- name: Test Zscaler Import
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Test Import of zscaler
+      command: "{{ ansible_python_interpreter }} -c 'import zscaler; print(\"zscaler imported successfully\")'"
+      register: zscaler_import_test
+
+    - name: Display zscaler Import Test Result
+      debug:
+        msg: "{{ zscaler_import_test.stdout }}"
