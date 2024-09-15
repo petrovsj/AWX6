@@ -1,18 +1,7 @@
-- name: Gather Policy Access Rule Details
-  hosts: localhost
-  connection: local
-  vars:
-    zpa_cloud:
-      client_id: "{{ client_id }}"
-      client_secret: "{{ client_secret | default(omit) }}"
-      customer_id: "{{ customer_id | default(omit) }}"
-      cloud: "{{ cloud | default(omit) }}"
+- name: Verify Python Executable
+  command: "{{ ansible_python_interpreter }} -c 'import sys; print(sys.executable)'"
+  register: python_executable
 
-- name: Verify Virtual Environment Activation
-  command: source /app/venv/bin/activate && echo $VIRTUAL_ENV
-  register: venv_activation
-  changed_when: false
-
-- name: Display Virtual Environment
+- name: Display Python Executable
   debug:
-    msg: "Virtual Environment: {{ venv_activation.stdout }}"
+    msg: "Python Executable: {{ python_executable.stdout }}"
