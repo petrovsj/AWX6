@@ -1,62 +1,8 @@
-- name: Gather Policy Access Rule Details
-  hosts: localhost
-  connection: local
+- name: Verify Virtual Environment Activation
+  command: source /app/venv/bin/activate && echo $VIRTUAL_ENV
+  register: venv_activation
+  changed_when: false
 
-  vars:
-    zpa_cloud:
-      client_id: "{{ client_id }}"
-      client_secret: "{{ client_secret | default(omit) }}"
-      customer_id: "{{ customer_id | default(omit) }}"
-      cloud: "{{ cloud | default(omit) }}"
-
-  tasks:
-    - name: Check Python interpreter
-      command: /app/venv/bin/python -c "import sys; print(sys.executable)"
-      register: python_check
-
-    - name: Check zscaler library
-      command: /app/venv/bin/python -c "import zscaler; print(zscaler.__file__)"
-      register: zscaler_check
-
-    - name: Display Python and zscaler info
-      ansible.builtin.debug:
-        msg: |
-          Python executable: {{ python_check.stdout }}
-          zscaler library location: {{ zscaler_check.stdout }}
-
-    - name: Get Zscaler API Access
-      zscaler.zpacloud.zpa_policy_access_rule_info:
-        provider:
-          client_id: "{{ client_id }}"
-          client_secret: "{{ client_secret }}"
-          customer_id: "{{ customer_id }}"
-          cloud: "{{ cloud }}"
-      register: access_rules
-
-    - name: Display Zscaler API Access Details
-      ansible.builtin.debug:
-        msg: "{{ access_rules }}"
-
-   # - name: Get Details of All Policy Access Rules
-   #   zscaler.zpacloud.zpa_policy_access_rule_info:
-   #     provider: "{{ zpa_cloud }}"
-   #   vars:
-   #     ansible_python_interpreter: /app/venv/bin/python
-
-    - name: Check Python Executable Path
-      ansible.builtin.command:
-        cmd: "{{ ansible_python_interpreter }} -c 'import sys; print(sys.executable)'"
-      register: python_executable
-
-    - name: Display Python Executable Path
-      ansible.builtin.debug:
-        msg: "Python executable path: {{ python_executable.stdout }}"
-
-    - name: Verify Virtual Environment Packages
-      ansible.builtin.command:
-        cmd: "{{ ansible_python_interpreter }} -m pip list"
-      register: pip_list
-
-    - name: Display Installed Packages
-      ansible.builtin.debug:
-        msg: "Installed packages: {{ pip_list.stdout }}"
+- name: Display Virtual Environment
+  debug:
+    msg: "Virtual Environment: {{ venv_activation.stdout }}"
